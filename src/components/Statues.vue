@@ -21,7 +21,7 @@
             <button @click="editStatue(statue.id)">Szerkesztés</button>
           </td>
         </tr>
-           <tr>
+        <tr>
           <td>
             <input type="text" v-model="statue.person">
           </td>
@@ -31,10 +31,10 @@
           <td>
             <input type="number" v-model="statue.price">
           </td>
-          <td>            
-            <button v-if="mod_new" @click="newStatue" :disabled="saving">Létrehoz</button>
-            <button v-if="!mod_new" @click="saveStatue" :disabled="saving">Mentés</button>
-            <button v-if="!mod_new" @click="cancelEdit" :disabled="saving">Mégse</button>
+          <td>
+            <button v-if="mod_new" @click="newStatue" :disabled="saving" >Új szobor</button>
+            <button v-if="!mod_new" @click="saveStatue" :disabled="saving" >Mentés</button>
+            <button v-if="!mod_new" @click="cancelStatue" :disabled="saving" >Mégse</button>
           </td>
         </tr>
       </tbody>
@@ -49,8 +49,8 @@ export default {
   },
   data() {
     return {
-        mod_new:true,
-        saving: false,
+      mod_new: true, 
+      saving: false,
       statue: {
         id: null,
         person: '',
@@ -66,6 +66,7 @@ export default {
      let data = await Response.json()
      this.statues = data
     },
+    //oh loll
     async deleteStatue(id) {
       let Response = await fetch(`http://127.0.0.1:8000/api/statues/${id}`, {
         method: 'DELETE'
@@ -73,6 +74,7 @@ export default {
       console.log(Response)
       await this.loadData()
     },
+    //ihh oops
     async newStatue() {
       this.saving='disabled'
      await fetch('http://127.0.0.1:8000/api/statues', {
@@ -87,6 +89,15 @@ export default {
      this.saving=false
      this.resetForm()
     },
+    resetForm() {
+      this.statue = {
+        id: null,
+        person: '',
+        height: '',
+        price: false
+      }
+      this.mod_new = true
+    },
     async saveStatue() {
       this.saving='disabled'
      await fetch(`http://127.0.0.1:8000/api/statues/${this.statue.id}`, {
@@ -100,8 +111,6 @@ export default {
      await this.loadData()
      this.saving=false
      this.resetForm()
-    },cancelEdit () {
-      this.resetForm()
     },
     async editStatue(id) {
       let Response = await fetch(`http://127.0.0.1:8000/api/statues/${id}`)
@@ -109,15 +118,9 @@ export default {
       this.statue = {...data};
       this.mod_new = false
     },
-    resetForm() {
-      this.statue = {
-        id: null,
-        person: '',
-        height: '',
-        price: false
-      }
-      this.mod_new = true
-    }
+    cancelStatue () {
+      this.resetForm()
+    },
   },
   mounted() {
     this.loadData()

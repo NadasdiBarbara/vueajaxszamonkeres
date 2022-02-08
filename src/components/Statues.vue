@@ -32,9 +32,9 @@
             <input type="number" v-model="statue.price">
           </td>
           <td>
-            <button v-if="mod_new" @click="newStatue" :disabled="saving" >Új szobor</button>
-            <button v-if="!mod_new" @click="saveStatue" :disabled="saving" >Mentés</button>
-            <button v-if="!mod_new" @click="cancelStatue" :disabled="saving" >Mégse</button>
+            <button v-if="mod_new" @click="newStatue" >Új szobor</button>
+            <button v-if="!mod_new" @click="saveStatue" >Mentés</button>
+            <button @click="cancelStatue" >Mégse</button>
           </td>
         </tr>
       </tbody>
@@ -50,7 +50,6 @@ export default {
   data() {
     return {
       mod_new: true, 
-      saving: false,
       statue: {
         id: null,
         person: '',
